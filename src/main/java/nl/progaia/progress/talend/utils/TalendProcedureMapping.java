@@ -17,6 +17,8 @@ package nl.progaia.progress.talend.utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nl.progaia.progress.client.Mapper;
 import nl.progaia.progress.client.Parameter;
@@ -27,6 +29,7 @@ import nl.progaia.progress.exception.AppserverClientException;
 import nl.progaia.progress.valueholder.ValueHolder;
 
 public class TalendProcedureMapping {
+	private static final Logger logger = Logger.getAnonymousLogger();
 	private Map<Integer, String> mappingRules = new HashMap<Integer, String>();
 	private Procedure proc;
 	
@@ -78,7 +81,8 @@ public class TalendProcedureMapping {
 			Parameter param = params.get(paramIndex);
 			switch(param.getInputOuputType()){
 			case INPUT:
-				System.out.println("Ignore input param");
+				if(logger.isLoggable(Level.FINE))
+					logger.fine("Ignore input param");
 			break;
 			case INPUT_OUTPUT:
 				TalendColumn columnIO = new TalendColumn(mappingRules.get(paramIndex), values.get(paramIndex).getValue(), null, null, null,null);
